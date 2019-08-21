@@ -11,16 +11,16 @@ LCSF and its environment are conceived in a way to automate repetitive tasks (pr
 ## When to use LCSF
 
 A typical use case of LCSF is when you're developping an application where distant systems with limited ressources need to automatically exchange data (send order, retrieve sensor measurements, status reports...).
-They will do so through a custom set of command and response (called a command set) to structure the information. 
+They will do so, using a custom set of commands and responses (called a command set) that structures the information to exchange. 
 
-LCSF provides you a method to define the command set, and to represent it in a way to minimise its size footprint. 
+LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint. 
 
 ## LCSF command set description
 
 A command set in LCSF is called a protocol and is the top hierarchical object. 
 A protocol is composed of a number of commands.
 
-### Commands types
+### Command types
 
 There are two types of commands:
 * Simple commands, that are enough by themselves (e.g. ping, acknowledge, reset, abort...).
@@ -40,20 +40,20 @@ The way it is handled in LCSF is that you simply give each command a "direction"
 * (B -> A): B can only send the command, A can only receive it.
 * (A <-> B) / Bidirectional: Both A and B can receive and send the command.
 
-### Attributes types
+### Attribute types
 
 There are also two types of attributes:
 * Simple attributes, that have data payload (e.g. a jump address attribute that contains the address itself).
 * Complex attributes, that have a list of sub-attributes payload to describe more complex objects (e.g. a colorspace attribute that will contain as sub-attributes its type (RGB, YUV, HSL...) and its three components).
 
-### Sub-attributes
+### Sub-attribute
 
 Sub-attributes are attributes in their own right. This means that if you have a type of data (e.g. an address) sent both in a command attribute and a sub-attribute, you really need to create one attribute "Address" in your protocol and use it for both cases.
 
 Note than you can have sub-attributes with sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
 This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
 
-### Optional attributes
+### Optional attribute
 
 Attributes have a mandatory payload but there are cases where an attribute won't be always there (e.g. a wait command may have a waiting time attribute or a default value if no time is given).
 
