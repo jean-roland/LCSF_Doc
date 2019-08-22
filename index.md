@@ -20,7 +20,7 @@ LCSF provides you with a method to define the command set, and represent it in a
 A command set in LCSF is called a protocol and is the top hierarchical object. 
 A protocol is composed of a number of commands.
 
-### Command Types
+### Command Type
 
 There are two types of commands:
 * Simple commands, that are enough by themselves (e.g. ping, acknowledge, reset, abort...).
@@ -28,19 +28,19 @@ There are two types of commands:
 
 ### Command Payload
 
-The command payload is to be decomposed into a list of attributes (e.g. a send file command will contain, at least, a file size attribute and a file data attribute).
+The command payload is a list of attributes (e.g. a send file command will contain, at least, a file size attribute and a file data attribute).
 Since attributes are here to structure the command payload, all attributes must have a data payload, otherwise they don't have a reason to exist.
 
 ### Command Direction
 
-Your protocol might have a notion of master and slave or in more generic terms, a protocol asymmetry where there is two different point of views.
+Your protocol might have a notion of master and slave or in more generic terms, a protocol asymmetry where there are two different point of views.
 
 The way it is handled in LCSF is that you simply give each command a "direction":
 * (A -> B): A can only send the command, B can only receive it.
 * (B -> A): B can only send the command, A can only receive it.
 * (A <-> B) / Bidirectional: Both A and B can receive and send the command.
 
-### Attribute Types
+### Attribute Type
 
 There are also two types of attributes:
 * Simple attributes, that have data payload (e.g. a jump address attribute that contains the address itself).
@@ -50,7 +50,7 @@ There are also two types of attributes:
 
 Sub-attributes are attributes in their own right. This means that if you have a type of data (e.g. an address) sent both in a command attribute and a sub-attribute, you really need to create one attribute "Address" in your protocol and use it for both cases.
 
-Note than you can have sub-attributes with sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
+Note than sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
 This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
 
 ### Optional Attribute
@@ -69,19 +69,19 @@ Simple attributes are given a data type to their payload. The different data typ
 * `Byte Array`
 
 All the number types have fixed sizes of respectively (1, 2 and 4 bytes).
-Strings must be null terminated, therefore their sizes are implicit.
+Strings must be null-terminated, therefore their sizes are implicit.
 
-### Command Sequences
+### Command Sequence
 
 Protocols don't have an intrinsic notion of sequences. They must be handled at the application level, using a state machine or something similar.
 
-### Good Practices
+### Good Practice
 
-Creating your protocol and defining the different commands and attributes is not trivial and there is multiple way to do one thing. This is why we propose the following good practices:
+Creating your protocol and defining the different commands and attributes is not trivial and there is many ways to do one thing. This is why we propose the following good practices:
 
 * As a good practice, to respect strict self-containment of protocol layers, if you have an attribute type of undetermined size like byte array (e.g. a file data attribute), you must accompany it with a size attribute (e.g. a `uint32` file size attribute).
 One exception of this would be if you have fixed length array in your protocol (e.g. a sha1 digest will always be 20 bytes) as the attribute itself will imply the size of the array.
-* An attribute can only appear once in a command or as a sub-attribute. Therefore, if you need to send multiple similar data, you should consider using an array attribute to regroup them.
+* An attribute can only appear once in a command or as a sub-attribute. Therefore, if you need to send multiple similar pieces of data, you should consider using an array attribute to regroup them.
 
 ### Wrapping-up
 
@@ -92,7 +92,7 @@ The following diagram sums up how a command set is structured:
 ## LCSF Formatting
 
 As to how LCSF protocols are represented we need to distinguish two things:
-* The protocol description, that will be used to describe all commands and attributes it contains.
+* The protocol description, that represents all the commands and attributes that can be exchanged.
 * A protocol message, that is the unit of data that will be transfered between a sender and a receiver. It will contains only one command and its attributes, if the command has any.
 
 ### Protocol Description
@@ -103,7 +103,7 @@ The description format is language-dependent and will vary, but it will be based
 
 The format is little endian.
 
-### Identifier Spaces
+### Identifier Space
 
 Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. There is no problem with a command and an attribute having the same identifier.
 
@@ -112,17 +112,17 @@ That is not the case for attributes and sub-attributes, you must make sure that 
 ### Protocol Message
 
 The message structure is defined as:
-* Protocol id (2 Bytes): The user-defined protocol identifier (value: `0-65534`, `65535/0xFFFF` is already taken for the built-in lcsf error protocol)
-* Command id (2 Bytes): The user defined command identifier (value: `0-65535`) of the command being sent.
-* 1st Attribute id (2 Bytes, msb set to 0 if payload is data, 1 if sub-attributes): The user defined identifier (value `0-32767`, msb used for attribute type) of one of the command attributes.
-* Data size or Sub-attributes number (2 Bytes): Either the data payload size or the number of sub attributes (value `0-65535`), depending on attribute type.
+* Protocol id (2 bytes): The user-defined protocol identifier (value: `0-65534`, `65535`/`0xFFFF` is already taken for the built-in lcsf error protocol)
+* Command id (2 bytes): The user-defined command identifier (value: `0-65535`) of the command being sent.
+* 1st Attribute id (2 bytes, msb set to 0 if payload is data, 1 if sub-attributes): The user-defined identifier (value `0-32767`, msb used for attribute type) of one of the command attributes.
+* Data size or sub-attributes number (2 bytes): Either the data payload size or the number of sub attributes (value `0-65535`), depending on attribute type.
 * Attribute payload (variable Size).
 * 2nd Attribute id
 * ...
 
 Simple Attribute structure:
 * Attribute id
-* Data Size
+* Data size
 * Data
 
 Complex Attribute structure:
@@ -130,7 +130,7 @@ Complex Attribute structure:
 - Sub-attributes number
   - 1st sub-attribute id
   - Data size or sub-attributes number
-  - Sub-Attribute Payload
+  - Sub-attribute payload
   - 2nd sub-attribute id
   - ...
 
