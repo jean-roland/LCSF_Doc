@@ -91,9 +91,21 @@ As to how LCSF protocols are represented we need to distinguish two things:
 * The protocol description, that will be used to describe all commands and attributes it contains.
 * A protocol message, that is the unit of data that will be transfered between a sender and a receiver. It will contains only one command and its attributes, if the command has any.
 
+### Protocol description
+
 The description format is language-dependent and will vary, but it will be based around arrays of structures, detailing the commands and their attributes.
 
+### Format endianness
+
 The format is little endian.
+
+### Identifier spaces
+
+Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. There is no problem with a command and an attribute having the same identifier.
+
+That is not the case for attributes and sub-attributes, you must make sure that different (sub-)attributes have different identifiers.
+
+### Protocol message
 
 The message structure is defined as:
 * Protocol id (2 Bytes): The user-defined protocol identifier (value: `0-65534`, `65535/0xFFFF` is already taken for the built-in lcsf error protocol)
@@ -118,11 +130,11 @@ Complex Attribute structure:
   - 2nd sub-attribute id
   - ...
 
+### Wrapping-up
+
 The following diagram sums up how a message is formatted:
 
 ![LCSF structure](./img/Trame.png)
-
-Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. There is no problem with a command and an attribute having the same identifier.
 
 ## LCSF Error protocol
 
