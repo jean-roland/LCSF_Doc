@@ -15,23 +15,23 @@ They will do so, using a custom set of commands and responses (called a command 
 
 LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint. 
 
-## LCSF command set description
+## LCSF Command Set Description
 
 A command set in LCSF is called a protocol and is the top hierarchical object. 
 A protocol is composed of a number of commands.
 
-### Command types
+### Command Types
 
 There are two types of commands:
 * Simple commands, that are enough by themselves (e.g. ping, acknowledge, reset, abort...).
 * Complex commands, that contain a data payload (e.g. a jump command that contains the jump address in its payload).
 
-### Command payload
+### Command Payload
 
 The command payload is to be decomposed into a list of attributes (e.g. a send file command will contain, at least, a file size attribute and a file data attribute).
 Since attributes are here to structure the command payload, all attributes must have a data payload, otherwise they don't have a reason to exist.
 
-### Command direction
+### Command Direction
 
 Your protocol might have a notion of master and slave or in more generic terms, a protocol asymmetry where there is two different point of views.
 
@@ -40,7 +40,7 @@ The way it is handled in LCSF is that you simply give each command a "direction"
 * (B -> A): B can only send the command, A can only receive it.
 * (A <-> B) / Bidirectional: Both A and B can receive and send the command.
 
-### Attribute types
+### Attribute Types
 
 There are also two types of attributes:
 * Simple attributes, that have data payload (e.g. a jump address attribute that contains the address itself).
@@ -53,13 +53,13 @@ Sub-attributes are attributes in their own right. This means that if you have a 
 Note than you can have sub-attributes with sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
 This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
 
-### Optional attribute
+### Optional Attribute
 
 Attributes have a mandatory payload but there are cases where an attribute won't be always there (e.g. a wait command may have a waiting time attribute or a default value if no time is given).
 
 To avoid sending useless data, attributes can be set as optional, otherwise they're mandatory.
 
-### Attribute data type
+### Attribute Data Type
 
 Simple attributes are given a data type to their payload. The different data types are:
 * `(u)int8`
@@ -71,7 +71,11 @@ Simple attributes are given a data type to their payload. The different data typ
 All the number types have fixed sizes of respectively (1, 2 and 4 bytes).
 Strings must be null terminated, therefore their sizes are implicit.
 
-### Good practices
+### Command Sequences
+
+Protocols don't have an intrinsic notion of sequences. They must be handled at the application level, using a state machine or something similar.
+
+### Good Practices
 
 Creating your protocol and defining the different commands and attributes is not trivial and there is multiple way to do one thing. This is why we propose the following good practices:
 
@@ -85,27 +89,27 @@ The following diagram sums up how a command set is structured:
 
 ![LCSF structure](./img/Struct.png)
 
-## LCSF formatting
+## LCSF Formatting
 
 As to how LCSF protocols are represented we need to distinguish two things:
 * The protocol description, that will be used to describe all commands and attributes it contains.
 * A protocol message, that is the unit of data that will be transfered between a sender and a receiver. It will contains only one command and its attributes, if the command has any.
 
-### Protocol description
+### Protocol Description
 
 The description format is language-dependent and will vary, but it will be based around arrays of structures, detailing the commands and their attributes.
 
-### Format endianness
+### Format Endianness
 
 The format is little endian.
 
-### Identifier spaces
+### Identifier Spaces
 
 Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. There is no problem with a command and an attribute having the same identifier.
 
 That is not the case for attributes and sub-attributes, you must make sure that different (sub-)attributes have different identifiers.
 
-### Protocol message
+### Protocol Message
 
 The message structure is defined as:
 * Protocol id (2 Bytes): The user-defined protocol identifier (value: `0-65534`, `65535/0xFFFF` is already taken for the built-in lcsf error protocol)
@@ -130,13 +134,19 @@ Complex Attribute structure:
   - 2nd sub-attribute id
   - ...
 
+### Protocol Versioning 
+
+You might run in a case where different systems will use different versions of the same protocol. If the different versions have the same identifier, it might lead to errors as one of the system might use a newer command that the other system doesn't understand.
+
+A simple way to avoid this issue is to change the protocol identifier each time the protocol is changed after initial deployment (e.g. using one byte for the version number).
+
 ### Wrapping-up
 
 The following diagram sums up how a message is formatted:
 
 ![LCSF structure](./img/Trame.png)
 
-## LCSF Error protocol
+## LCSF Error Protocol
 
 LCSF has a built-in error protocol to report problems encountered while processing incoming LCSF messages back to the sender.
 
