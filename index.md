@@ -11,13 +11,13 @@ LCSF and its environment are conceived in a way to automate repetitive tasks (pr
 ## When to use LCSF
 
 A typical use case of LCSF is when you're developping an application where distant systems with limited ressources need to automatically exchange data (send order, retrieve sensor measurements, status reports...).
-They will do so, using a custom set of commands and responses (called a command set) that structures the information to exchange. 
+They will do so, using a custom set of commands and responses (called a command set) that structures the information to exchange.
 
-LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint. 
+LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint.
 
 ## LCSF Command Set Description
 
-A command set in LCSF is called a protocol and is the top hierarchical object. 
+A command set in LCSF is called a protocol and is the top hierarchical object.
 A protocol is composed of a number of commands.
 
 ### Command Type
@@ -112,33 +112,31 @@ That is not the case for attributes and sub-attributes, you must make sure that 
 ### Protocol Message
 
 The message structure is defined as:
-* Protocol id (2 bytes): The user-defined protocol identifier (value: `0-65534`, `65535`/`0xFFFF` is already taken for the built-in lcsf error protocol)
-* Command id (2 bytes): The user-defined command identifier (value: `0-65535`) of the command being sent.
-* 1st Attribute id (2 bytes, msb set to 0 if payload is data, 1 if sub-attributes): The user-defined identifier (value `0-32767`, msb used for attribute type) of one of the command attributes.
-* Data size or sub-attributes number (2 bytes): Either the data payload size or the number of sub attributes (value `0-65535`), depending on attribute type.
-* Attribute payload (variable Size).
-* 2nd Attribute id
+* Protocol id: The user-defined protocol identifier. One id value (usually `\~0`) is reserved for the built-in lcsf error protocol.
+* Command id: The user-defined command identifier of the command being sent.
+* 1st Attribute id: The user-defined identifier of one of the command attributes.
+* Complexity flag: Flag value is 0 if payload is data, 1 if sub-attributes.
+* Payload size: Either the data size or the number of sub attributes, depending on complexity flag.
+* Attribute payload.
+* 2nd Attribute id.
 * ...
 
 Simple Attribute structure:
 * Attribute id
+* Complexity flag
 * Data size
-* Data
+* Data payload
 
 Complex Attribute structure:
-- Attribute id
-- Sub-attributes number
-  - 1st sub-attribute id
-  - Data size or sub-attributes number
-  - Sub-attribute payload
-  - 2nd sub-attribute id
-  - ...
-
-### Protocol Versioning 
-
-You might run in a case where different systems will use different versions of the same protocol. If the different versions have the same identifier, it might lead to errors as one of the system might use a newer command that the other system doesn't understand.
-
-A simple way to avoid this issue is to change the protocol identifier each time the protocol is changed after initial deployment (e.g. using one byte for the version number).
+* Attribute id
+* Complexity flag
+* Sub-attributes number
+  * 1st sub-attribute id
+  * Complexity flag
+  * Payload size
+  * Sub-attribute payload
+  * 2nd sub-attribute id
+  * ...
 
 ### Wrapping-up
 
@@ -146,11 +144,30 @@ The following diagram sums up how a message is formatted:
 
 ![LCSF structure](./img/Trame.png)
 
+### Standard representation
+
+Below are the standard sizes for the different message components:
+* Protocol id: 16 bits, `0xFFFF` reserved for lcsf error protocol.
+* Command id: 16 bits.
+* Attribute id: 15 bits.
+* Complexity flag. 1 bit.
+* Payload size: 16 bits.
+* Data payload: User defined.
+
+If this representation doesn't suit your application, you can make a custom one.
+In the future, other representations may be supported by the LCSF environment.
+
+### Protocol Versioning
+
+You might run in a case where different systems will use different versions of the same protocol. If the different versions have the same identifier, it might lead to errors as one of the system might use a newer command that the other system doesn't understand.
+
+A simple way to avoid this issue is to change the protocol identifier each time the protocol is changed after initial deployment (e.g. using one byte for the version number).
+
 ## LCSF Error Protocol
 
 LCSF has a built-in error protocol to report problems encountered while processing incoming LCSF messages back to the sender.
 
-The protocol id is `0xFFFF`. It has only one command "Error" with two mandatory attributes "Error location" and "Error type".
+The protocol id is `0xFFFF` (standard representation). It has only one command "Error" with two mandatory attributes "Error location" and "Error type".
 * Error location indicates if the message has bad formatting or if it doesn't correspond to its protocol description
 * Error type gives more information on the error nature
 
