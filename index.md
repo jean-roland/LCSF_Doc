@@ -148,10 +148,10 @@ The following diagram sums up how a message is formatted:
 ### Standard representation
 
 Below is the standard representation for the different LCSF message components:
-* Protocol id: `16 bits`, `65534` possible values - `0xFFFF` reserved for lcsf error protocol.
-* Command id: `16 bits`, `65535` possible values.
+* Protocol id: `16 bits`, `65535` possible values - `0xFFFF` reserved for lcsf error protocol.
+* Command id: `16 bits`, `65536` possible values.
 * Attribute number: `16 bits`, up to `65535` attributes per command.
-* Attribute id: `15 bits`, `32767` possible values - MSB used by complexity flag.
+* Attribute id: `15 bits`, `32768` possible values - MSB used by complexity flag.
 * Complexity flag. `1 bit`, `2` values - `0` indicates a simple attribute and `1` a complex attribute.
 * Payload size: `16 bits`, up to `65535` sub-attributes or bytes of data.
 * Data payload: User defined, in the limit of the payload size capabilities.
