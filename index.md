@@ -114,6 +114,7 @@ That is not the case for attributes and sub-attributes, you must make sure that 
 The message structure is defined as:
 * Protocol id: The user-defined protocol identifier. One id value (usually `~0`) is reserved for the built-in lcsf error protocol.
 * Command id: The user-defined command identifier of the command being sent.
+* Attribute number: The command number of attributes.
 * 1st Attribute id: The user-defined identifier of one of the command attributes.
 * Complexity flag: Flag value is 0 if payload is data, 1 if sub-attributes.
 * Payload size: Either the data size or the number of sub attributes, depending on complexity flag.
@@ -146,15 +147,20 @@ The following diagram sums up how a message is formatted:
 
 ### Standard representation
 
-Below are the standard sizes for the different message components:
-* Protocol id: 16 bits, `0xFFFF` reserved for lcsf error protocol.
-* Command id: 16 bits.
-* Attribute id: 15 bits.
-* Complexity flag. 1 bit.
-* Payload size: 16 bits.
-* Data payload: User defined.
+Below is the standard representation for the different LCSF message components:
+* Protocol id: `16 bits`, `65534` possible values - `0xFFFF` reserved for lcsf error protocol.
+* Command id: `16 bits`, `65535` possible values.
+* Attribute number: `16 bits`, up to `65535` attributes per command.
+* Attribute id: `15 bits`, `32767` possible values.
+* Complexity flag. `1 bit`, `2` values - `0` indicates a simple attribute and `1` a complex attribute.
+* Payload size: `16 bits`, up to `65535` sub-attributes or bytes of data.
+* Data payload: User defined, in the limit of the payload size capabilities.
 
-If this representation doesn't suit your application, you can make a custom one.
+This means that small message sizes are:
+* Simple command: `6 bytes`.
+* Command with a simple attribute: `10 bytes + payload size`.
+
+If this representation doesn't suit your application, you can choose a custom one.
 In the future, other representations may be supported by the LCSF environment.
 
 ### Protocol Versioning
