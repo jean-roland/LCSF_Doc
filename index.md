@@ -112,7 +112,7 @@ That is not the case for attributes and sub-attributes, you must make sure that 
 ### Protocol Message
 
 The message structure is defined as:
-* Protocol id: The user-defined protocol identifier. One id value (usually `\~0`) is reserved for the built-in lcsf error protocol.
+* Protocol id: The user-defined protocol identifier. One id value (usually `~0`) is reserved for the built-in lcsf error protocol.
 * Command id: The user-defined command identifier of the command being sent.
 * 1st Attribute id: The user-defined identifier of one of the command attributes.
 * Complexity flag: Flag value is 0 if payload is data, 1 if sub-attributes.
