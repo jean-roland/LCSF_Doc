@@ -165,7 +165,7 @@ In the future, other representations may be supported by the LCSF environment.
 
 ### Smaller representation
 
-This smaller representation aims to reduce message overhead/size at the cost of representation space and increased complexity:
+This smaller representation aims to reduce message overhead/size at the cost of representation space:
 * Protocol id: `8 bits`, `255` possible values - `0xFF` reserved for lcsf error protocol.
 * Command id: `8 bits`, `256` possible values.
 * Attribute number: `8 bits`, up to `255` attributes per command.
