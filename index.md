@@ -163,6 +163,21 @@ This means that small message sizes are:
 If this representation doesn't suit your application, you can choose a custom one.
 In the future, other representations may be supported by the LCSF environment.
 
+### Smaller representation
+
+This smaller representation aims to reduce message overhead/size at the cost of representation space and increased complexity:
+* Protocol id: `8 bits`, `255` possible values - `0xFF` reserved for lcsf error protocol.
+* Command id: `8 bits`, `256` possible values.
+* Attribute number: `8 bits`, up to `255` attributes per command.
+* Attribute id: `7 bits`, `128` possible values - MSB used by complexity flag.
+* Complexity flag. `1 bit`, `2` values - `0` indicates a simple attribute and `1` a complex attribute.
+* Payload size: `8 bits`, encodes up to `255` sub-attributes or bytes of data.
+* Data payload: User defined, in the limit of the payload size capabilities.
+
+In this representation, small message sizes are:
+* Simple command: `3 bytes`.
+* Command with a simple attribute: `5 bytes + payload size`.
+
 ### Protocol Versioning
 
 You might run in a case where different systems will use different versions of the same protocol. If the different versions have the same identifier, it might lead to errors as one of the system might use a newer command that the other system doesn't understand.
