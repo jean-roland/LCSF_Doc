@@ -169,9 +169,9 @@ This smaller representation aims to reduce message overhead/size at the cost of 
 * Protocol id: `8 bits`, `255` possible values - `0xFF` reserved for lcsf error protocol.
 * Command id: `8 bits`, `256` possible values.
 * Attribute number: `8 bits`, up to `255` attributes per command.
-* Attribute id: `8 bits`, `256` possible values.
+* Attribute id: `7 bits`, `128` possible values - MSB used by complexity flag.
 * Complexity flag. `1 bit`, `2` values - `0` indicates a simple attribute and `1` a complex attribute.
-* Payload size: `7 bits`, encodes up to `127` sub-attributes or `255` bytes of data - LSB used by complexity flag, sub-attributes number value is shifted by `1 bit` to the left.
+* Payload size: `8 bits`, encodes up to `255` sub-attributes or bytes of data.
 * Data payload: User defined, in the limit of the payload size capabilities.
 
 In this representation, small message sizes are:
