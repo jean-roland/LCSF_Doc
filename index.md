@@ -160,9 +160,6 @@ This means that small message sizes are:
 * Simple command: `6 bytes`.
 * Command with a simple attribute: `10 bytes + payload size`.
 
-If this representation doesn't suit your application, you can choose a custom one.
-In the future, other representations may be supported by the LCSF environment.
-
 ### Smaller representation
 
 This smaller representation aims to reduce message overhead/size at the cost of representation space:
@@ -177,6 +174,11 @@ This smaller representation aims to reduce message overhead/size at the cost of 
 In this representation, small message sizes are:
 * Simple command: `3 bytes`.
 * Command with a simple attribute: `5 bytes + payload size`.
+
+### Custom representations
+
+If those representations don't correspond to your application, you can create a custom one.
+In the future, other representations may be supported by the LCSF environment.
 
 ### Protocol Versioning
 
