@@ -13,7 +13,7 @@ LCSF and its environment are conceived in a way to automate repetitive tasks (pr
 A typical use case of LCSF is when you're developping an application where distant systems with limited ressources need to automatically exchange data (send order, retrieve sensor measurements, status reports...).
 They will do so, using a custom set of commands and responses (called a command set) that structures the information to exchange.
 
-LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint.
+LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint and development/deployment time.
 
 ## LCSF Command Set Description
 
@@ -48,7 +48,7 @@ There are also two types of attributes:
 
 ### Sub-attribute
 
-Sub-attributes are attributes in their own right. This means that if you have a type of data (e.g. an address) sent both in a command attribute and a sub-attribute, you really need to create one attribute "Address" in your protocol and use it for both cases.
+Sub-attributes are attributes in their own right. This means that if you have a type of data (e.g. an address) sent both in a command attribute and a sub-attribute, you really need to define one attribute "Address" in your protocol and use it for both cases.
 
 Note than sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
 This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
@@ -105,9 +105,9 @@ The format is little endian.
 
 ### Identifier Space
 
-Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. There is no problem with a command and an attribute having the same identifier.
+Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. Actually, every commands and attributes have their own (sub) attribute identifer space.
 
-That is not the case for attributes and sub-attributes, you must make sure that different (sub-)attributes have different identifiers.
+There is no problem with attributes of different commands having the same identifiers.
 
 ### Protocol Message
 
