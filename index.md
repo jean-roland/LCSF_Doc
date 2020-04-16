@@ -190,6 +190,8 @@ A simple way to avoid this issue is to change the protocol identifier each time 
 
 LCSF has a built-in error protocol to report problems encountered while processing incoming LCSF messages back to the sender.
 
+To report errors at a protocol level (eg: valid command received at wrong step of a sequence), you should either have a dedicated error command in your protocol or a dedicated error protocol.
+
 The protocol id is `0xFFFF` (standard representation). It has only one command "Error" with two mandatory attributes "Error location" and "Error type".
 * Error location indicates if the message has bad formatting or if it doesn't correspond to its protocol description
 * Error type gives more information on the error nature
