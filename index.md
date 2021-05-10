@@ -1,21 +1,30 @@
-## What is LCSF
+## Presentation
 
-LCSF is two things:
-1. A clever way to describe command sets in order to fit most applications, even complex ones.
-2. A lightweight format to represent those command sets.
+The LCSF project is a set of tools and documentation based around the LCSF (Light Command Set Format). The goal is to simplify and accelerate the development and deployment of custom command sets so that you can focus on your actual project instead of fiddling with low-level protocols.
 
-It was mainly conceived with IOT/M2M applications in mind where communication channels are heavily restricted in volume and speed.
+It was mainly conceived with IoT/M2M applications in mind where communication channels are heavily restricted in volume and speed.
 
-LCSF and its environment are conceived in a way to automate repetitive tasks (protocol format deployment) so that you can focus on what the protocol actually does.
+## When to use
 
-## When to use LCSF
+A typical use case is when you're developing an application where distant systems with limited resources need to automatically exchange data (send order, retrieve sensor measurements, status, reports...).
 
-A typical use case of LCSF is when you're developping an application where distant systems with limited ressources need to automatically exchange data (send order, retrieve sensor measurements, status reports...).
-They will do so, using a custom set of commands and responses (called a command set) that structures the information to exchange.
+They will often do so using a custom set of commands and responses (called a command set) that structures the information to exchange.
 
-LCSF provides you with a method to define the command set, and represent it in a way to minimise its size footprint and development/deployment time.
+The LCSF project provides you with a method to define the command set and tools to simplify the tedious process of deploying and maintaining it.
 
-## LCSF Command Set Description
+## Project components
+
+The main components of the LCSF Project are:
+
+* LCSF itself, which is two things:
+    1. A specification to describe command sets that can fit most applications, even complex ones.
+    2. A lightweight format to represent those command sets.
+* [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): A LCSF implementation written in C, aimed at small embedded systems - bare metal friendly, static memory allocation, small footprint <3kB data, ram consumption depends on user parameters (typical 1kB)
+* [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF stack as well as documentation (wiki and markdown format).
+
+For more information on the other components, check their respective documentation.
+
+## LCSF Documentation
 
 A command set in LCSF is called a protocol and is the top hierarchical object.
 A protocol is composed of a number of commands.
@@ -33,7 +42,7 @@ Since attributes are here to structure the command payload, all attributes must 
 
 ### Command Direction
 
-Your protocol might have a notion of master and slave or in more generic terms, a protocol asymmetry where there are two different point of views.
+Your protocol might have a notion of master and slave or in more generic terms, a protocol asymmetry where there are two different point of view.
 
 The way it is handled in LCSF is that you simply give each command a "direction":
 * (A -> B): A can only send the command, B can only receive it.
@@ -48,7 +57,7 @@ There are also two types of attributes:
 
 ### Sub-attribute
 
-Sub-attributes are attributes in their own right. This means that if you have a type of data (e.g. an address) sent both in a command attribute and a sub-attribute, you really need to define one attribute "Address" in your protocol and use it for both cases.
+Sub-attributes are attributes in their own right. This means that if you have a data type `Address` in your protocol, you can use it as either an attribute or a sub-attribute.
 
 Note than sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
 This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
@@ -237,11 +246,3 @@ Error_Type enum table if validation error:
 | `MISSING_NON_OPTIONAL` | `0x04`     | A non optional attribute is missing |
 | `WRONG_DATA_TYPE`      | `0x05`     | Attribute data is of wrong type/size |
 | `UNKNOWN_ERROR`        | `0xFF`     | Unspecified error |
-
-## LCSF Environment
-
-The LCSF environment is composed of:
-* [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): A LCSF implementation written in C, aimed at small embedded systems - bare metal friendly, static memory allocation, small footprint <3kB data, ram consumption depends on user parameters (typical 1kB)
-* [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF stack as well as documentation (wiki and markdown format).
-
-For more information on these projects, check their respective documentation.
