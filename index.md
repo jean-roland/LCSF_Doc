@@ -6,11 +6,11 @@ It was mainly conceived with IoT/M2M applications in mind where communication ch
 
 ## When to use
 
-A typical use case is when you're developing an application where distant systems with limited resources need to automatically exchange data (send order, retrieve sensor measurements, status, reports...).
+Whenever you're developing an application where distant systems with limited resources need to automatically exchange data (send order, retrieve sensor measurements, status, reports...). You will often do so using a custom set of commands and responses.
 
-They will often do so using a custom set of commands and responses (called a command set) that structures the information to exchange.
+At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
-The LCSF project provides you with a method to define the command set and tools to simplify the tedious process of deploying and maintaining it.
+The LCSF project provides you the tools to simplify the tedious process of developping, deploying and maintaining your custom set of commands.
 
 ## Project components
 
@@ -26,6 +26,7 @@ For more information on the other components, check their respective documentati
 
 ## LCSF Documentation
 
+This is the documentation about the LSCF specification.
 A command set in LCSF is called a protocol and is the top hierarchical object.
 A protocol is composed of a number of commands.
 
