@@ -1,16 +1,16 @@
 ## Presentation
 
-The LCSF project is a set of tools and documentation based around the LCSF (Light Command Set Format). The goal is to simplify and accelerate the development and deployment of custom command sets so that you can focus on your actual project instead of fiddling with low-level protocols.
+The LCSF project is a set of tools and documentation based around the LCSF (Light Command Set Format). The goal is to simplify and accelerate the development and deployment of custom sets of commands so that you can focus on your actual project instead of fiddling with low-level protocols.
 
 It was mainly conceived with IoT/M2M applications in mind where communication channels are heavily restricted in volume and speed.
 
 ## When to use
 
-Whenever you're developing an application where distant systems with limited resources need to automatically exchange data (send order, retrieve sensor measurements, status, reports...). You will often do so using a custom set of commands and responses.
+Whenever you're developing an application where distant systems with limited resources need to automatically exchange data (send order, retrieve sensor measurements, status, reports...). You will often do so using a custom command set and responses.
 
 At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
-The LCSF project provides you the tools to simplify the tedious process of developping, deploying and maintaining your custom set of commands.
+The LCSF project provides you the tools to simplify the tedious process of developping, deploying and maintaining your custom command set.
 
 ## Project components
 
@@ -19,15 +19,18 @@ The main components of the LCSF Project are:
 * LCSF itself, which is two things:
     1. A specification to describe command sets that can fit most applications, even complex ones.
     2. A lightweight format to represent those command sets.
-* [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): A LCSF implementation written in C, aimed at small embedded systems - bare metal friendly, static memory allocation, small footprint <3kB data, ram consumption depends on user parameters (typical 1kB)
-* [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF stack as well as documentation (wiki and markdown format).
+* [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): A LCSF implementation written in C, add it to your project to easily encode and decode LCSF messages.
+* [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF C stack and documentation (wiki and markdown format).
 
 For more information on the other components, check their respective documentation.
 
 ## LCSF Documentation
 
 This is the documentation about the LSCF specification.
-A command set in LCSF is called a protocol and is the top hierarchical object.
+
+### Protocol
+
+A command set in LCSF is the top hierarchical object, and is called a protocol.
 A protocol is composed of a number of commands.
 
 ### Command Type
@@ -99,7 +102,7 @@ The following diagram sums up how a command set is structured:
 
 ![LCSF structure](./img/Struct.png)
 
-## LCSF Formatting
+## LCSF Message
 
 As to how LCSF protocols are represented we need to distinguish two things:
 * The protocol description, that represents all the commands and attributes that can be exchanged.
