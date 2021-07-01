@@ -10,7 +10,10 @@ Whenever you're developing an application where distant systems with limited res
 
 At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
-The LCSF project provides you the tools to simplify the tedious process of developping, deploying and maintaining your custom command set.
+The LCSF project provides you the tools to simplify the tedious process of developping, deploying and maintaining your custom command set. In exchange for the additional complexity you get:
+* Ability to have multiple coexisting command sets.
+* Automatically decode/encode messages and validate data payload.
+* GUI to safely generate/edit command sets and documentation.
 
 ## Project components
 
@@ -26,7 +29,7 @@ For more information on the other components, check their respective documentati
 
 ## LCSF Documentation
 
-This is the documentation about the LSCF specification.
+This is the documentation of the LSCF specification.
 
 ### Protocol
 
