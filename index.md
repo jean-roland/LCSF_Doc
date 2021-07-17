@@ -13,7 +13,7 @@ At it's simplest, you can get away with sending ASCII characters, but when you s
 The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
 * Ability to have multiple coexisting command sets.
 * Automatically decode/encode messages and validate data payload.
-* GUI to safely generate/edit command sets and documentation.
+* GUI to safely generate/edit command sets and documentation, allowing you to iterate easily.
 
 ## Project components
 
