@@ -10,10 +10,14 @@ Whenever you're developing an application where distant systems with limited res
 
 At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
+On the other end of the power spectrum, you can be tempted to directly send JSON/XML files, or use an alternative like protobuf. If your use case is simple, it can be a waste of resources though, and you might consider a more lightweight option. 
+
 The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
-* Ability to have multiple coexisting command sets.
+* Built-in error handling protocol.
+* Possibility to have different coexisting command sets.
 * Automatically decode/encode messages and validate data payload.
 * GUI to safely generate/edit command sets and documentation, allowing you to iterate easily.
+* Ability to represent virtually all protocols with infinitely branching attributes.
 
 ## Project components
 
@@ -26,6 +30,12 @@ The main components of the LCSF Project are:
 * [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF C stack and documentation (wiki and markdown format).
 
 For more information on the other components, check their respective documentation.
+
+## Real-world examples
+
+The following are two applications where LCSF was used:
+* A protocol to send FPGA firmware binaries to distant microcontrollers, with integrity control.
+* A protocol to process the UI of a product (screen + buttons) controlled by a microcontroller from a distant Linux computer. The intelligence of the UI was deported on the Linux because of architectural constraints.
 
 ## LCSF Documentation
 
@@ -66,8 +76,8 @@ There are also two types of attributes:
 
 Sub-attributes are attributes in their own right. This means that if you have a data type `Address` in your protocol, you can use it as either an attribute or a sub-attribute.
 
-Note than sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
-This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
+**Note than sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
+This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.**
 
 ### Optional Attribute
 
