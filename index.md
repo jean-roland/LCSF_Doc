@@ -10,7 +10,7 @@ Whenever you're developing an application where distant systems with limited res
 
 At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
-On the other end of the power spectrum, you can be tempted to directly send JSON/XML files, or use an alternative like protobuf. If your use case is simple, it can be a waste of resources though, and you might consider a more lightweight option. 
+On the other end of the "power spectrum", you might default to using gRPC or a RESTful API. If your use case is simple though, it can be a waste of resources though, and you might consider a more lightweight option. 
 
 The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
 * Built-in error handling protocol.
