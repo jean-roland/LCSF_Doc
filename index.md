@@ -1,3 +1,5 @@
+# LCSF Project
+
 ## Presentation
 
 The LCSF project is a set of tools and documentation based around the LCSF (Light Command Set Format). The goal is to simplify and accelerate the development and deployment of custom sets of commands so that you can focus on your actual project instead of fiddling with low-level protocols.
