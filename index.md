@@ -12,7 +12,7 @@ Whenever you're developing an application where distant systems with limited res
 
 At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
-On the other end of the "power spectrum", you might default to using gRPC or a RESTful API. If your use case is simple though, it can be a waste of resources though, and you might consider a more lightweight option. 
+On the other end of the "power spectrum", you might default to using gRPC or a RESTful API. If your use case is simple though, it can be a waste of resources, and you might want to consider a more lightweight option like LCSF.
 
 The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
 * Built-in error handling protocol.
@@ -70,7 +70,7 @@ The way it is handled in LCSF is that you simply give each command a "direction"
 
 ### Attribute Type
 
-There are also two types of attributes:
+There are two types of attributes:
 * Simple attributes, that have data payload (e.g. a jump address attribute that contains the address itself).
 * Complex attributes, that have a list of sub-attributes payload to describe more complex objects (e.g. a colorspace attribute that will contain as sub-attributes its type (RGB, YUV, HSL...) and its three components).
 
@@ -78,7 +78,7 @@ There are also two types of attributes:
 
 Sub-attributes are attributes in their own right. This means that if you have a data type `Address` in your protocol, you can use it as either an attribute or a sub-attribute.
 
-**Note than sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
+**Note that sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
 This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.**
 
 ### Optional Attribute
@@ -142,7 +142,7 @@ There is no problem with attributes of different commands having the same identi
 The message structure is defined as:
 * Protocol id: The user-defined protocol identifier. One id value (usually `~0`) is reserved for the built-in lcsf error protocol.
 * Command id: The user-defined command identifier of the command being sent.
-* Attribute number: The command number of attributes.
+* Attribute number: The command's number of attributes.
 * 1st Attribute id: The user-defined identifier of one of the command attributes.
 * Complexity flag: Flag value is 0 if payload is data, 1 if sub-attributes.
 * Payload size: Either the data size or the number of sub attributes, depending on complexity flag.
