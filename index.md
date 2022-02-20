@@ -1,4 +1,4 @@
-# LCSF Project
+<p hidden># LCSF Project</p>
 
 ## Presentation
 
@@ -15,11 +15,11 @@ At it's simplest, you can get away with sending ASCII characters, but when you s
 On the other end of the "power spectrum", you might default to using gRPC or a RESTful API. If your use case is simple though, it can be a waste of resources, and you might want to consider a more lightweight option like LCSF.
 
 The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
-* Built-in error handling protocol.
+* Ability to represent virtually all protocols with infinitely branching attributes.
 * Possibility to have different coexisting command sets.
 * Automatically decode/encode messages and validate data payload.
 * GUI to safely generate/edit command sets and documentation, allowing you to iterate easily.
-* Ability to represent virtually all protocols with infinitely branching attributes.
+* Built-in error handling protocol.
 
 ## Project components
 
@@ -36,7 +36,7 @@ For more information on the other components, check their respective documentati
 ## Real-world examples
 
 The following are two applications where LCSF was used:
-* A protocol to send FPGA firmware binaries to distant microcontrollers, with integrity control.
+* A protocol to update FPGA firmware binaries to a dozen distant microcontrollers, with integrity control.
 * A protocol to process the UI of a product (screen + buttons) controlled by a microcontroller from a distant Linux computer. The intelligence of the UI was deported on the Linux because of architectural constraints.
 
 ## LCSF Documentation
@@ -78,8 +78,7 @@ There are two types of attributes:
 
 Sub-attributes are attributes in their own right. This means that if you have a data type `Address` in your protocol, you can use it as either an attribute or a sub-attribute.
 
-**Note that sub-attributes can have their own sub-attributes. As such, there is no limit to the amount of attribute branching/nesting you can do.
-This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.**
+Also, sub-attributes can have their own sub-attributes and there is no limit to the amount of attribute branching/nesting you can do. This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
 
 ### Optional Attribute
 
@@ -110,6 +109,7 @@ Creating your protocol and defining the different commands and attributes is not
 * To respect strict self-containment of protocol layers, if you have an attribute type of undetermined size like byte array (e.g. a file data attribute), you must accompany it with a size attribute (e.g. a `uint32` file size attribute).
 One exception of this would be if you have fixed length array in your protocol (e.g. a sha1 digest will always be 20 bytes) as the attribute itself will imply the size of the array.
 * An attribute can only appear once in a command or as a sub-attribute. Therefore, if you need to send multiple similar pieces of data, you should consider using an array attribute to regroup them.
+* Complex attributes are costly, they take a few bytes to represent and a recursive call to process. You should only use them if the hierarchical data they carry has value and/or you don't know in advance the data you want to send. For example, if you want to *stream* any file system with LCSF, both conditions are met.
 
 ### Wrapping-up
 
