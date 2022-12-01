@@ -41,7 +41,7 @@ The following are two applications where LCSF was used:
 
 ## LCSF Documentation
 
-This is the documentation of the LSCF specification.
+This is the documentation of the LCSF specification.
 
 ### Protocol
 
