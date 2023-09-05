@@ -12,7 +12,7 @@ Whenever you're developing an application where distant systems with limited res
 
 At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
 
-On the other end of the "power spectrum", you might default to using gRPC or a RESTful API. If your use case is simple though, it can be a waste of resources, and you might want to consider a more lightweight option like LCSF.
+On the other end of the "power spectrum" you will probably use gRPC or RESTful API, which can be resource-intensive, and you may want to consider a more lightweight option like LCSF.
 
 The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
 * Ability to represent virtually all protocols with infinitely branching attributes.
@@ -28,16 +28,17 @@ The main components of the LCSF Project are:
 * LCSF itself, which is two things:
     1. A specification to describe command sets that can fit most applications, even complex ones.
     2. A lightweight format to represent those command sets.
-* [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): A LCSF implementation written in C, add it to your project to easily encode and decode LCSF messages.
-* [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF C stack and documentation (wiki and markdown format).
+* [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): An embedded-friendly LCSF implementation written in C, add it to your project to easily encode and decode LCSF messages.
+* [LCSF Stack Rust](https://github.com/jean-roland/LCSF_Stack_Rust): A memory-safe LCSF implementation written in Rust.
+* [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF stacks and documentation (wiki and markdown format).
 
 For more information on the other components, check their respective documentation.
 
 ## Real-world examples
 
 The following are two applications where LCSF was used:
-* A protocol to update FPGA firmware binaries to a dozen distant microcontrollers, with integrity control.
-* A protocol to process the UI of a product (screen + buttons) controlled by a microcontroller from a distant Linux computer. The intelligence of the UI was deported on the Linux because of architectural constraints.
+* A protocol to update FPGA firmware binaries to a dozen distant micro-controllers, with integrity control.
+* A protocol to process the UI of a product (screen + buttons) controlled by a micro-controller from a distant Linux computer. The intelligence of the UI was deported on the Linux because of architectural constraints.
 
 ## LCSF Documentation
 
@@ -72,7 +73,7 @@ The way it is handled in LCSF is that you simply give each command a "direction"
 
 There are two types of attributes:
 * Simple attributes, that have data payload (e.g. a jump address attribute that contains the address itself).
-* Complex attributes, that have a list of sub-attributes payload to describe more complex objects (e.g. a colorspace attribute that will contain as sub-attributes its type (RGB, YUV, HSL...) and its three components).
+* Complex attributes, that have a list of sub-attributes payload to describe more complex objects (e.g. a color space attribute that will contain as sub-attributes its type (RGB, YUV, HSL...) and its three components).
 
 ### Sub-attribute
 
@@ -107,7 +108,7 @@ Protocols don't have an intrinsic notion of sequences. They must be handled at t
 Creating your protocol and defining the different commands and attributes is not trivial and there is many ways to do one thing. This is why we propose the following good practices:
 
 * To respect strict self-containment of protocol layers, if you have an attribute type of undetermined size like byte array (e.g. a file data attribute), you must accompany it with a size attribute (e.g. a `uint32` file size attribute).
-One exception of this would be if you have fixed length array in your protocol (e.g. a sha1 digest will always be 20 bytes) as the attribute itself will imply the size of the array.
+One exception of this would be if you have fixed length array in your protocol (e.g. a SHA1 digest will always be 20 bytes) as the attribute itself will imply the size of the array.
 * An attribute can only appear once in a command or as a sub-attribute. Therefore, if you need to send multiple similar pieces of data, you should consider using an array attribute to regroup them.
 * Complex attributes are costly, they take a few bytes to represent and a recursive call to process. You should only use them if the hierarchical data they carry has value and/or you don't know in advance the data you want to send. For example, if you want to *stream* any file system with LCSF, both conditions are met.
 
@@ -121,7 +122,7 @@ The following diagram sums up how a command set is structured:
 
 As to how LCSF protocols are represented we need to distinguish two things:
 * The protocol description, that represents all the commands and attributes that can be exchanged.
-* A protocol message, that is the unit of data that will be transfered between a sender and a receiver. It will contains only one command and its attributes, if the command has any.
+* A protocol message, that is the unit of data that will be transferred between a sender and a receiver. It will contains only one command and its attributes, if the command has any.
 
 ### Protocol Description
 
@@ -133,7 +134,7 @@ The format is little endian.
 
 ### Identifier Space
 
-Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. Actually, every commands and attributes have their own (sub) attribute identifer space.
+Protocols, commands and attributes have separate identifiers spaces as they are considered different objects. Actually, every commands and attributes have their own (sub) attribute identifier space.
 
 There is no problem with attributes of different commands having the same identifiers.
 
@@ -258,9 +259,9 @@ Error_Type enum table if validation error:
 
 | Enum name              | Enum Value | Description |
 |:-----------------------|:-----------|:------------|
-| `UNKNOWN_PROTOCOL_ID`  | `0x00`     | Unrecognised protocol id |
-| `UNKNOWN_COMMAND_ID`   | `0x01`     | Unrecognised command id |
-| `UNKNOWN_ATTRIBUTE_ID` | `0x02`     | Unrecognised attribute id |
+| `UNKNOWN_PROTOCOL_ID`  | `0x00`     | Unrecognized protocol id |
+| `UNKNOWN_COMMAND_ID`   | `0x01`     | Unrecognized command id |
+| `UNKNOWN_ATTRIBUTE_ID` | `0x02`     | Unrecognized attribute id |
 | `TOO_MANY_ATTRIBUTES`  | `0x03`     | More attributes received than expected |
 | `MISSING_NON_OPTIONAL` | `0x04`     | A non optional attribute is missing |
 | `WRONG_DATA_TYPE`      | `0x05`     | Attribute data is of wrong type/size |
