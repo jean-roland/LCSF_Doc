@@ -96,7 +96,7 @@ Simple attributes are given a data type to their payload. The different data typ
 * `String`
 * `Byte Array`
 
-All the number types have fixed sizes of respectively (1, 2 and 4 bytes).
+All the number types have a maximum size of respectively (1, 2 and 4 bytes). Basic variable length encoding is used to remove unnecessary null value bytes during transmission.
 Strings must be null-terminated, therefore their sizes are implicit.
 
 ### Command Sequence
