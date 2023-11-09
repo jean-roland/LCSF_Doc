@@ -93,21 +93,27 @@ Simple attributes are given a data type to their payload. The different data typ
 * `(u)int8`
 * `(u)int16`
 * `(u)int32`
+* `(u)int64`
+* `float32`
+* `float64`
 * `String`
 * `Byte Array`
 
-All the number types have a maximum size of respectively (1, 2 and 4 bytes). Basic variable length encoding is used to remove unnecessary null value bytes during transmission.
+All the integer types have a maximum size of respectively 1, 2, 4 and 8 bytes. They use variable length encoding to remove unnecessary null value bytes during transmission.
+
+Float32 are 4 bytes long and float64 8 bytes long.
+
 Strings must be null-terminated, therefore their sizes are implicit.
 
 ### Command Sequence
 
-Protocols don't have an intrinsic notion of sequences. They must be handled at the application level, using a state machine or something similar.
+Protocols don't have an intrinsic notion of sequences. This must be handled at the application level, using a state machine or something similar.
 
 ### Good Practice
 
 Creating your protocol and defining the different commands and attributes is not trivial and there is many ways to do one thing. This is why we propose the following good practices:
 
-* To respect strict self-containment of protocol layers, if you have an attribute type of undetermined size like byte array (e.g. a file data attribute), you must accompany it with a size attribute (e.g. a `uint32` file size attribute).
+* To respect strict self-containment of protocol layers, if you have an attribute type of undetermined size like byte array (e.g. a file data attribute), you must accompany it with a size attribute (e.g. a `uint32` or `uint64` file size attribute).
 One exception of this would be if you have fixed length array in your protocol (e.g. a SHA1 digest will always be 20 bytes) as the attribute itself will imply the size of the array.
 * An attribute can only appear once in a command or as a sub-attribute. Therefore, if you need to send multiple similar pieces of data, you should consider using an array attribute to regroup them.
 * Complex attributes are costly, they take a few bytes to represent and a recursive call to process. You should only use them if the hierarchical data they carry has value and/or you don't know in advance the data you want to send. For example, if you want to *stream* any file system with LCSF, both conditions are met.
