@@ -54,7 +54,7 @@ This is the documentation of the LCSF specification.
 
 ### Protocol
 
-A command set in LCSF is the top hierarchical object, and is called a protocol.
+A protocol in LCSF is the top hierarchical object.
 A protocol is composed of a number of commands.
 
 ### Command Type
@@ -87,7 +87,7 @@ There are two types of attributes:
 
 Sub-attributes are attributes in their own right. This means that if you have a data type `Address` in your protocol, you can use it as either an attribute or a sub-attribute.
 
-Also, sub-attributes can have their own sub-attributes and there is no limit to the amount of attribute branching/nesting you can do. This is one of the key feature of LCSF and gives it the flexibility to describe most, if not all, command sets that you may need to create for your applications.
+Also, sub-attributes can have their own sub-attributes and there is no limit to the amount of attribute branching/nesting you can do. This is one of the key feature of LCSF and gives it the flexibility to describe any data payload that you may need to create your application protocol.
 
 ### Optional Attribute
 
@@ -128,7 +128,7 @@ One exception of this would be if you have fixed length array in your protocol (
 
 ### Wrapping-up
 
-The following diagram sums up how a command set is structured:
+The following diagram sums up how a LCSF protocol is structured:
 
 ![LCSF structure](./img/Struct.png)
 
@@ -155,7 +155,7 @@ There is no problem with attributes of different commands having the same identi
 ### Protocol Message
 
 The message structure is defined as:
-* Protocol id: The user-defined protocol identifier. One id value (usually `~0`) is reserved for the built-in lcsf error protocol.
+* Protocol id: The user-defined protocol identifier. One id value (usually `~0`) is reserved for the built-in LCSF error protocol.
 * Command id: The user-defined command identifier of the command being sent.
 * Attribute number: The command's number of attributes.
 * 1st Attribute id: The user-defined identifier of one of the command attributes.
@@ -191,7 +191,7 @@ The following diagram sums up how a message is formatted:
 ### Standard representation
 
 Below is the standard representation for the different LCSF message components:
-* Protocol id: `16 bits`, `65535` possible values - `0xFFFF` reserved for lcsf error protocol.
+* Protocol id: `16 bits`, `65535` possible values - `0xFFFF` reserved for LCSF error protocol.
 * Command id: `16 bits`, `65536` possible values.
 * Attribute number: `16 bits`, up to `65535` attributes per command.
 * Attribute id: `15 bits`, `32768` possible values - MSB used by complexity flag.
@@ -206,7 +206,7 @@ This means that small message sizes are:
 ### Smaller representation
 
 This smaller representation aims to reduce message overhead/size at the cost of representation space:
-* Protocol id: `8 bits`, `255` possible values - `0xFF` reserved for lcsf error protocol.
+* Protocol id: `8 bits`, `255` possible values - `0xFF` reserved for LCSF error protocol.
 * Command id: `8 bits`, `256` possible values.
 * Attribute number: `8 bits`, up to `255` attributes per command.
 * Attribute id: `7 bits`, `128` possible values - MSB used by complexity flag.
