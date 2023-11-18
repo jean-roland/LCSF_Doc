@@ -2,15 +2,21 @@
 
 ## Presentation
 
-The Light Command Set Format project, or LCSF for short, consists of:
+The Light Command Set Format (LCSF) is a project aiming to facilitate application protocol development and deployment.
+
+It consists of:
 * A powerful serialization format and the software that implements it.
-* A set of tools built on top to easily create and deploy custom application protocols or remote procedure calls (RPC).
+* A set of tools built on top to easily create and generate custom application protocols or remote procedure calls (RPC).
 
 All the while, trying to strike a balance between wire efficiency, computation time and memory utilization. This allows LCSF to address everything from embedded systems to very large scale applications.
 
 In the future, it could become an entire ecosystem with:
 * Ready-made protocols for specific use cases.
 * Out of the box applications based on those protocols.
+
+Here is an overview of how it can be used:
+
+![LCSF overview](./img/Overview.png)
 
 ## When to use
 
