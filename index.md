@@ -2,32 +2,40 @@
 
 ## Presentation
 
-The LCSF project is a set of tools and documentation based around the LCSF (Light Command Set Format). The goal is to simplify and accelerate the development and deployment of custom sets of commands so that you can focus on your actual project instead of fiddling with low-level protocols.
+The Light Command Set Format project, or LCSF for short, consists of:
+* A powerful serialization format and the software that implements it.
+* A set of tools built on top to easily create and deploy custom application protocols or remote procedure calls (RPC).
 
-It was mainly conceived with IoT/M2M applications in mind where communication channels are heavily restricted in volume and speed.
+All the while, trying to strike a balance between wire efficiency, computation time and memory utilization. This allows LCSF to address everything from embedded systems to very large scale applications.
+
+In the future, it could become an entire ecosystem with:
+* Ready-made protocols for specific use cases.
+* Out of the box applications based on those protocols.
 
 ## When to use
 
-Whenever you're developing an application where distant systems with limited resources need to automatically exchange data (send order, retrieve sensor measurements, status, reports...). You will often do so using a custom command set and responses.
+Whenever you're developing an application where two systems need to automatically exchange data (send order, retrieve sensor measurements, status, reports...). You will often do so using a custom protocol made of commands and responses.
 
-At it's simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, when you start to have multiple versions of your commands coexisting and conflicting, it gets annoying to maintain.
+At its simplest, you can get away with sending ASCII characters, but when you start introducing data payloads that vary in length, or are optional, or when you have multiple conflicting versions of your protocol, it gets tedious to maintain real fast.
 
-On the other end of the "power spectrum" you will probably use gRPC or RESTful API, which can be resource-intensive, and you may want to consider a more lightweight option like LCSF.
+Maybe you'll default to using gRPC or a RESTful API, which are resource-intensive and force you to use `http/tcp` whereas LCSF is lightweight and agnostic to any underlying network protocol.
 
-The LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom command set. In exchange for the additional complexity, you get:
-* Ability to represent virtually all protocols with infinitely branching attributes.
-* Possibility to have different coexisting command sets.
-* Automatically decode/encode messages and validate data payload.
-* GUI to safely generate/edit command sets and documentation, allowing you to iterate easily.
+In short, the LCSF project provides you the tools to simplify the tedious process of developing, deploying and maintaining your custom application protocols or RPCs. While being lightweight and network protocol agnostic.
+
+LCSF features include:
+* Ability to represent virtually any data complexity with infinitely branching attributes.
+* Possibility to have many coexisting protocols on the same network.
+* Automatically decode/encode messages and validate data payloads.
+* GUI to safely generate/edit protocols and documentation, allowing you to iterate easily.
 * Built-in error handling protocol.
 
 ## Project components
 
 The main components of the LCSF Project are:
 
-* LCSF itself, which is two things:
-    1. A specification to describe command sets that can fit most applications, even complex ones.
-    2. A lightweight format to represent those command sets.
+* LCSF itself, which is:
+    1. A specification to describe any application protocols.
+    2. A lightweight format to represent those protocols and their commands.
 * [LCSF C Stack](https://github.com/jean-roland/LCSF_C_Stack): An embedded-friendly LCSF implementation written in C, add it to your project to easily encode and decode LCSF messages.
 * [LCSF Stack Rust](https://github.com/jean-roland/LCSF_Stack_Rust): A memory-safe LCSF implementation written in Rust.
 * [LCSF Generator](https://github.com/jean-roland/LCSF_Generator): A C++/Qt graphic tool used to create, edit and deploy LCSF protocols. It generates code for the LCSF stacks and documentation (wiki and markdown format).
@@ -37,8 +45,8 @@ For more information on the other components, check their respective documentati
 ## Real-world examples
 
 The following are two applications where LCSF was used:
-* A protocol to update FPGA firmware binaries to a dozen distant micro-controllers, with integrity control.
-* A protocol to process the UI of a product (screen + buttons) controlled by a micro-controller from a distant Linux computer. The intelligence of the UI was deported on the Linux because of architectural constraints.
+* A protocol to update FPGA firmware binaries to a dozen distant microcontrollers, with integrity control.
+* A protocol to stream the UI of a product (screen + buttons) between a microcontroller and a distant Linux computer. The core of the UI (hierarchy, texts, layouts...) being stored on the Linux for memory constraints.
 
 ## LCSF Documentation
 
